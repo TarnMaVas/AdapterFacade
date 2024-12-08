@@ -9,6 +9,7 @@ import org.jsoup.nodes.Element;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -17,6 +18,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class WebScrapingChatGPTReader {
+
+    private static final int TOKENS = 50;
+    private static final double TEMPERATURE = 0.5;
+    private static final int FAIL_RESPONSE = 429;
 
     private static final String API_KEY = "it_doesn't_work";
     private static final String OPENAI_API_URL = 
@@ -70,8 +75,8 @@ public class WebScrapingChatGPTReader {
         messages.add(userMessage);
 
         json.add("messages", messages);
-        json.addProperty("max_tokens", 50);
-        json.addProperty("temperature", 0.5);
+        json.addProperty("max_tokens", TOKENS);
+        json.addProperty("temperature", TEMPERATURE);
 
         RequestBody body = RequestBody.create(json.toString(), mediaType);
         Request request = new Request.Builder()
@@ -81,18 +86,18 @@ public class WebScrapingChatGPTReader {
                 .addHeader("Content-Type", "application/json")
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-            if (response.isSuccessful() && response.body() != null) {
-                String responseString = response.body().string();
+        try (Response RESPONSE = client.newCall(request).execute()) {
+            if (RESPONSE.isSuccessful() && RESPONSE.body() != null) {
+                String responseString = RESPONSE.body().string();
                 return parseResponse(responseString);
-            } else if (response.code() == 429) {
+            } else if (RESPONSE.code() == FAIL_RESPONSE) {
                 System.out.println(
                     "API call failed with status: 429 ( I'm broke :( )"
                     );
                 return "Default Description from ChatGPT for " + website;
             } else {
                 System.out.println(
-                    "API call failed with status: " + response.code()
+                    "API call failed with status: " + RESPONSE.code()
                     );
                 return "Default Description from ChatGPT for " + website;
             }
@@ -110,7 +115,7 @@ public class WebScrapingChatGPTReader {
             return jsonResponse.getAsJsonArray("choices")
                         .get(0).getAsJsonObject()
                         .get("text").getAsString().trim();
-        } catch (Exception e) {
+        } catch (JsonSyntaxException e) {
             System.out.println(
                 "Error parsing API response: " + e.getMessage()
                 );

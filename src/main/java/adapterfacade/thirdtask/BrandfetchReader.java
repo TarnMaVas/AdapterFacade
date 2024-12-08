@@ -8,21 +8,25 @@ import java.util.Scanner;
 import org.json.JSONObject;
 
 public class BrandfetchReader {
+
+    private static final int FORBIDDEN_STATUS_CODE = 403;
+    private static final int OK_STATUS_CODE = 200;
+
     public Company getCompanyInfo(String website) throws IOException {
-        String API_KEY = "z8/ZhU+9itoC2F9YkZ1KWbpqDYDeC8QQyO8NStxgSX4=";
+        String apiKey = "z8/ZhU+9itoC2F9YkZ1KWbpqDYDeC8QQyO8NStxgSX4=";
         URL url = new URL("https://api.brandfetch.io/v1/company/" + website);
         HttpURLConnection connection =
                         (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("Authorization", "Bearer " + API_KEY);
+        connection.setRequestProperty("Authorization", "Bearer " + apiKey);
         connection.connect();
 
         int responseCode = connection.getResponseCode();
-        if (responseCode == 403) {
+        if (responseCode == FORBIDDEN_STATUS_CODE) {
             System.out.println(
         "API call failed with status: 403 ( Some API key stuff again )");
             return new Company();
-        } else if (responseCode != 200) {
+        } else if (responseCode != OK_STATUS_CODE) {
             System.out.println(
                 "Error: Server returned HTTP response code: " + responseCode);
             return new Company();

@@ -27,7 +27,7 @@ class TaskTwoTests {
             User data: %s
             Statistical data: %s
             """.formatted(dbAdapter.getUserData(),
-                        dbAdapter.getStatisticalData());
+                          dbAdapter.getStatisticalData());
 
         Assertions.assertEquals(expectedOutput, result);
     }

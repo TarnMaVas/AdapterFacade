@@ -11,10 +11,10 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", logo='" + logo + '\'' +
-                '}';
+        return "Company{"
+                + "name='" + name + '\''
+                + ", description='" + description + '\''
+                + ", logo='" + logo + '\''
+                + '}';
     }
 }

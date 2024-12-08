@@ -8,22 +8,26 @@ import java.util.Scanner;
 import org.json.JSONObject;
 
 public class PDLReader {
+
+    private static final int OK_STATUS_CODE = 200;
+    private static final int UNAUTHORIZED_STATUS_CODE = 401;
+
     public Company getCompanyInfo(String website) throws IOException {
-        String API_KEY = "";
+        String apiKey = "";
         URL url = new URL(
         "https://api.peopledatalabs.com/v5/company/enrich?website=" + website
         );
         HttpURLConnection connection = 
                     (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("X-Api-Key", API_KEY);
+        connection.setRequestProperty("X-Api-Key", apiKey);
         connection.connect();
 
         int responseCode = connection.getResponseCode();
-        if (responseCode == 401) {
+        if (responseCode == UNAUTHORIZED_STATUS_CODE) {
             System.out.println("I have no PDL API key :(");
             return new Company();
-        } else if (responseCode != 200) {
+        } else if (responseCode != OK_STATUS_CODE) {
             System.out.println(
                 "Error: Server returned HTTP response code: " + responseCode
                 );

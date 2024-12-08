@@ -45,7 +45,7 @@ class TaskOneTests {
     }
 
     @Test
-    void testSendMessage_UserActiveAndFromSameCountry() {
+    void testSendMessageserActiveAndFromSameCountry() {
         String result = messageSender.send("Hello", activeUser, USA);
         Assertions.assertEquals(
         "Sending message: Hello to user with email: activeuser@example.com", 
@@ -53,7 +53,7 @@ class TaskOneTests {
     }
 
     @Test
-    void testSendMessage_UserNotActive() {
+    void testSendMessageUserNotActive() {
         String result = messageSender.send("Hello", inactiveUser, USA);
         Assertions.assertEquals(
             "The user is not active or not from the same country", 
@@ -61,7 +61,7 @@ class TaskOneTests {
     }
 
     @Test
-    void testSendMessage_UserFromDifferentCountry() {
+    void testSendMessageUserFromDifferentCountry() {
         String result = messageSender.send(
                                        "Hello",
                                             differentCountryUser,
