@@ -15,11 +15,11 @@ import adapterfacade.thirdtask.CompanyFacade;
 
 public class Main {
 
-    private final static long ALMOST_NOW = 100;
+    private static final long ALMOST_NOW = 100;
     private static final long LONG_AGO = 4600000;
 
-    private final static long VALID = System.currentTimeMillis() - ALMOST_NOW;
-    private final static long INVALID = System.currentTimeMillis() - LONG_AGO;
+    private static final long VALID = System.currentTimeMillis() - ALMOST_NOW;
+    private static final long INVALID = System.currentTimeMillis() - LONG_AGO;
 
     public static void main(String[] args) {
         FacebookUser facebookUser = new FacebookUser(

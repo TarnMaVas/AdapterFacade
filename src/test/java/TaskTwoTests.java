@@ -22,12 +22,11 @@ class TaskTwoTests {
     @Test
     void testBuildReport() {
         String result = reportBuilder.buildReport();
-        String expectedOutput = """
-            Building report...
-            User data: %s
-            Statistical data: %s
-            """.formatted(dbAdapter.getUserData(),
-                          dbAdapter.getStatisticalData());
+        String expectedOutput = "Building report...\n"
+            + "User data: %s\n".formatted(dbAdapter.getUserData())
+            + "Statistical data: %s\n".formatted(
+                dbAdapter.getStatisticalData()
+                );
 
         Assertions.assertEquals(expectedOutput, result);
     }
